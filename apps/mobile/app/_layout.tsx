@@ -8,9 +8,8 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
-import TicTacToe from '@/components/TicTacToe';
+import PokemonTCGGame from '@/components/PokemonTCGGame';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -33,7 +32,7 @@ export default function RootLayout() {
     <ParallaxScrollView headerBackgroundColor={{ light: '#1A1A1A', dark: '#1A1A1A' }}>
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.gameContainer}>
-          <TicTacToe />
+          <PokemonTCGGame />
         </View>
       </SafeAreaView>
     </ParallaxScrollView>
@@ -46,7 +45,6 @@ const styles = StyleSheet.create({
   },
   gameContainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 20,
   }
