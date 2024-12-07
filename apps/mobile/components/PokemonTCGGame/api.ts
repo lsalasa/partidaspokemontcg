@@ -12,7 +12,7 @@ export const searchPokemonCards = async (query: string): Promise<PokemonCard[]> 
       name: card.name,
       hp: parseInt(card.hp || '0'),
       imageUrl: card.images.small,
-      types: card.types
+      types: card.types,
     }));
   } catch (error) {
     console.error('Error fetching Pokemon cards:', error);

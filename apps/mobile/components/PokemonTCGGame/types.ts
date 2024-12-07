@@ -25,6 +25,16 @@ export interface PokemonCard {
   types?: string[];
   isActive: boolean;
   isFainted: boolean;
+  attacks?: IAttack[];
+  rarity: string;
+}
+
+export interface IAttack {
+  convertedEnergyCost: number;
+  cost: string[];
+  damage: string;
+  name: string;
+  text: string;
 }
 
 export interface Player {
