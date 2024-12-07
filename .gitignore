@@ -1,0 +1,74 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+*.build/
+*.next/
+*/out/
+*/dist/
+*/ios/build/
+*/android/app/build/
+
+# React Native
+*.iml
+*.hprof
+*.jks
+*.keystore
+*.apk
+*.ap_
+*.hprof
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# VSCode settings
+.vscode/
+*.code-workspace
+
+# Yarn and NPM
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log*
+
+# IDE-specific files
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Expo
+*.expo/
+*.expo-shared/
+
+# Storybook
+.out/
+.storybook-out/
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Build artifacts for Next.js
+*.next/
+
+# Miscellaneous
+*/package-lock.json
+*/yarn.lock
+package-lock.json
+yarn.lock
+
+#Prisma
+*.db
+*.db-journal
