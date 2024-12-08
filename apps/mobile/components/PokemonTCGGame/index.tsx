@@ -4,11 +4,7 @@ import { View, Text, TouchableOpacity, ScrollView, Modal, StyleSheet, Image, Saf
 import * as FileSystem from 'expo-file-system';
 import type { Pokemon, Player, Players, LogEntry, StatusEffect, PokemonCard } from './types';
 import PokemonSearch from './PokemonSearch';
-
-const formatDate = (date: Date): string => {
-  const pad = (n: number) => n.toString().padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-};
+import { formatDate } from '@/utils/dateUtils';
 
 
 const PokemonTCGGame: React.FC = () => {
@@ -236,6 +232,7 @@ const PokemonTCGGame: React.FC = () => {
     </View>
   );
   };
+
   const renderActivePokemonSection = (playerId: keyof Players, player: Player) => {
     return !player.activePokemon ? (
       <TouchableOpacity
@@ -745,6 +742,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 });
+
 const searchStyles = StyleSheet.create({
   searchContainer: {
     marginVertical: 10,
