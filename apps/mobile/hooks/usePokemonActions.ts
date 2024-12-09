@@ -6,9 +6,9 @@ import { useGameLogs } from './useGameLogs';
 export const usePokemonActions = (
   players: Players,
   setPlayers: React.Dispatch<React.SetStateAction<Players>>,
-  setMustChoosePokemon: (player: keyof Players | null) => void
+  setMustChoosePokemon: (player: keyof Players | null) => void,
+  addLog: (action: string) => void
 ) => {
-  const { addLog } = useGameLogs();
 
   const handleModifyHP = useCallback(
     async (playerId: keyof Players, amount: number) => {
@@ -28,7 +28,7 @@ export const usePokemonActions = (
           }
 
           setMustChoosePokemon(playerId);
-
+          addLog(`${playerId}'s Pokemon HP changed by ${amount}`);
           return {
             ...prev,
             [playerId]: {

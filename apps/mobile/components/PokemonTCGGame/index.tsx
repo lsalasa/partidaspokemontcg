@@ -26,7 +26,8 @@ export function PokemonTCGGame() {
   } = usePlayersState();
 
   const [showPokemonSearch, setShowPokemonSearch] = useState(false);
-
+  const { logs, addLog, getLogs, clearLogs } = useGameLogs();
+  
   const handleCloseSearch = () => {
     setShowPokemonSearch(false);
     setSelectedPlayer(null); 
@@ -35,10 +36,11 @@ export function PokemonTCGGame() {
   const { handleModifyHP, handleSelectBenchPokemon } = usePokemonActions(
     players,
     setPlayers,
-    setMustChoosePokemon
+    setMustChoosePokemon,
+    addLog 
   );
 
-  const { logs, addLog, getLogs, clearLogs } = useGameLogs();
+  
   const { showDeckModal, currentPlayerDeck, openDeck, closeDeck } = usePokemonDeck();
   const [showBattleLogModal, setShowBattleLogModal] = useState(false);
 
@@ -99,6 +101,12 @@ export function PokemonTCGGame() {
           currentPlayerDeck={currentPlayerDeck}
           players={players}
           onClose={closeDeck}
+        />
+
+        <BattleLogModal
+          visible={showBattleLogModal}
+          logs={logs}
+          onClose={toggleBattleLogModal}
         />
 
       </ScrollView>
