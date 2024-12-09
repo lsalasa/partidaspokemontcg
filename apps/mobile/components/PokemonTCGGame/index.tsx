@@ -24,6 +24,13 @@ export function PokemonTCGGame() {
     setPlayers,
   } = usePlayersState();
 
+  const [showPokemonSearch, setShowPokemonSearch] = useState(false);
+
+  const handleCloseSearch = () => {
+    setShowPokemonSearch(false);
+    setSelectedPlayer(null); 
+  };
+  
   const { handleModifyHP, handleSelectBenchPokemon } = usePokemonActions(
     players,
     setPlayers,
@@ -60,7 +67,9 @@ export function PokemonTCGGame() {
 
             {selectedPlayer && (
               <View style={styles.searchContainer}>
-                <PokemonSearch onSelectPokemon={handleSelectPokemon} />
+                <PokemonSearch 
+                onSelectPokemon={handleSelectPokemon}
+                onCloseSearch={handleCloseSearch} />
               </View>
             )}
 
