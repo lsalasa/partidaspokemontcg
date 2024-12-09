@@ -52,7 +52,7 @@ export function PokemonTCGGame() {
 
   return (
     <StatusEffectsProvider>
-      <ScrollView style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ScrollView>
           <TitleImage></TitleImage>
           <View  style={styles.playerSectionContainer}>
@@ -101,7 +101,7 @@ export function PokemonTCGGame() {
           onClose={closeDeck}
         />
 
-      </ScrollView>
+      </SafeAreaView>
     </StatusEffectsProvider>
   );
 }

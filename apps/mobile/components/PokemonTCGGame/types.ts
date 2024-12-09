@@ -10,7 +10,7 @@ export interface Players {
   player2: Player;
 }
 
-export type StatusEffect = 'normal' | 'confused' | 'paralyzed' | 'burned' | 'poisoned' | 'asleep';
+export type StatusEffect = 'confused' | 'paralyzed' | 'burned' | 'poisoned' | 'asleep';
 
 export interface LogEntry {
   timestamp: string;
@@ -47,8 +47,7 @@ export interface Player {
 }
 
 export const StatusIcons: {[key in StatusEffect]: string} = {
-  normal: '',
-  confused: '😵',
+  confused: '❓',
   paralyzed: '⚡',
   burned: '🔥',
   poisoned: '☠️',

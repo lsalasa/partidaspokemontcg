@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import { Pokemon, StatusEffect } from '@/components/PokemonTCGGame/types';
 
 interface StatusEffectsContextType {
-  toggleStatus: (pokemon: Pokemon, status: StatusEffect) => void;
+  toggleStatus: (pokemon: Pokemon, statuses: StatusEffect) => void;
   getPokemonStatuses: (pokemon: Pokemon) => StatusEffect[];
 }
 
@@ -12,22 +12,26 @@ export function StatusEffectsProvider({ children }: { children: React.ReactNode 
   const [statusEffects, setStatusEffects] = useState<Map<string, StatusEffect[]>>(new Map());
 
   const toggleStatus = (pokemon: Pokemon, status: StatusEffect) => {
+    // Modificamos directamente los estados del Pokemon
+    const currentStatuses = pokemon.status || [];
+    const hasStatus = currentStatuses.includes(status);
+    
+    if (hasStatus) {
+      pokemon.status = currentStatuses.filter(s => s !== status);
+    } else {
+      pokemon.status = [...currentStatuses, status];
+    }
+
+    // Actualizamos también el mapa de estado global
     setStatusEffects(prev => {
       const newMap = new Map(prev);
-      const currentStatuses = newMap.get(pokemon.id) || [];
-      const hasStatus = currentStatuses.includes(status);
-
-      newMap.set(pokemon.id, hasStatus 
-        ? currentStatuses.filter(s => s !== status)
-        : [...currentStatuses, status]
-      );
-
+      newMap.set(pokemon.id, pokemon.status);
       return newMap;
     });
   };
 
   const getPokemonStatuses = (pokemon: Pokemon): StatusEffect[] => {
-    return statusEffects.get(pokemon.id) || [];
+    return pokemon.status || [];
   };
 
   return (

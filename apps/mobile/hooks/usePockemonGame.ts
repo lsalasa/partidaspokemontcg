@@ -33,7 +33,7 @@ export const usePokemonGame = () => {
     const newPokemon = {
       ...card,
       currentHp: card.hp,
-      status: []
+      statuses: []
     };
 
     setPlayers(prev => {
@@ -118,15 +118,15 @@ export const usePokemonGame = () => {
     addLog(`${playerId}'s Pokemon HP changed by ${amount}`);
   }, [addLog]);
 
-  const toggleStatus = useCallback((playerId: keyof Players, status: StatusEffect) => {
+  const toggleStatus = useCallback((playerId: keyof Players, statuses: StatusEffect) => {
     setPlayers(prev => {
         const player = prev[playerId];
         if (!player.activePokemon) return prev;
   
-        const hasStatus = player.activePokemon.status.includes(status);
+        const hasStatus = player.activePokemon.status.includes(statuses);
         const newStatus = hasStatus
-          ? player.activePokemon.status.filter(s => s !== status)
-          : [...player.activePokemon.status, status];
+          ? player.activePokemon.status.filter(s => s !== statuses)
+          : [...player.activePokemon.status, statuses];
   
         return {
           ...prev,
@@ -134,12 +134,12 @@ export const usePokemonGame = () => {
             ...player,
             activePokemon: {
               ...player.activePokemon,
-              status: newStatus
+              statuses: newStatus
             }
           }
         };
       });
-    addLog(`${playerId}'s Pokemon ${status} status toggled`);
+    addLog(`${playerId}'s Pokemon ${statuses} status toggled`);
   }, [addLog]);
 
   return {
