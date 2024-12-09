@@ -1,10 +1,12 @@
 // components/PokemonTCGGame/index.tsx
-import React, { useState } from "react";
-import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
 import { PlayerSection } from "@/components/PlayerSection";
 import { PokemonSearch } from "@/components/PokemonSearch";
 import { DeckModal } from "@/components/DeckModal";
-import { BattleLog } from "@/components/BattleLog";
+import { BattleLogModal } from "@/components/BattleLogModal";
 import { StatusEffectsProvider } from "@/contexts/StatusEffectsContext";
 import { usePlayersState } from "@/hooks/usePlayersState";
 import { usePokemonActions } from "@/hooks/usePokemonActions";
@@ -19,47 +21,66 @@ export function PokemonTCGGame() {
     setSelectedPlayer,
     setMustChoosePokemon,
     handleSelectPokemon,
+    setPlayers,
   } = usePlayersState();
 
   const { handleModifyHP, handleSelectBenchPokemon } = usePokemonActions(
+    players,
     setPlayers,
     setMustChoosePokemon
   );
 
-  const { logs } = useGameLogs();
+  const { logs, addLog, getLogs } = useGameLogs();
   const { showDeckModal, currentPlayerDeck, openDeck, closeDeck } = usePokemonDeck();
+  const [showBattleLogModal, setShowBattleLogModal] = useState(false);
+
+  const toggleBattleLogModal = () => {
+    setShowBattleLogModal(!showBattleLogModal);
+  };
+
+  useEffect(() => {
+    getLogs();
+  }, [getLogs]);
 
   return (
     <StatusEffectsProvider>
       <SafeAreaView style={styles.container}>
         <ScrollView>
-          <PlayerSection
-            playerId="player1"
-            player={players.player1}
-            mustChoose={mustChoosePokemon === "player1"}
-            onSelectPlayer={setSelectedPlayer}
-            onShowDeck={openDeck}
-            onModifyHP={handleModifyHP}
-            onSelectBenchPokemon={handleSelectBenchPokemon}
-          />
+          <View style={styles.playerSectionContainer}>
+            <PlayerSection
+              playerId="player1"
+              player={players.player1}
+              mustChoose={mustChoosePokemon === "player1"}
+              onSelectPlayer={setSelectedPlayer}
+              onShowDeck={openDeck}
+              onModifyHP={handleModifyHP}
+              onSelectBenchPokemon={handleSelectBenchPokemon}
+              onPlayerAction={addLog}
+            />
 
-          {selectedPlayer && (
-            <View style={styles.searchContainer}>
-              <PokemonSearch onSelectPokemon={handleSelectPokemon} />
-            </View>
-          )}
+            {selectedPlayer && (
+              <View style={styles.searchContainer}>
+                <PokemonSearch onSelectPokemon={handleSelectPokemon} />
+              </View>
+            )}
 
-          <PlayerSection
-            playerId="player2"
-            player={players.player2}
-            mustChoose={mustChoosePokemon === "player2"}
-            onSelectPlayer={setSelectedPlayer}
-            onShowDeck={openDeck}
-            onModifyHP={handleModifyHP}
-            onSelectBenchPokemon={handleSelectBenchPokemon}
-          />
+            <PlayerSection
+              playerId="player2"
+              player={players.player2}
+              mustChoose={mustChoosePokemon === "player2"}
+              onSelectPlayer={setSelectedPlayer}
+              onShowDeck={openDeck}
+              onModifyHP={handleModifyHP}
+              onSelectBenchPokemon={handleSelectBenchPokemon}
+              onPlayerAction={addLog}
+            />
+          </View>
 
-          <BattleLog logs={logs} />
+          <View style={styles.actionButtonsContainer}>
+            <TouchableOpacity onPress={toggleBattleLogModal}>
+              <Ionicons name="list-outline" size={24} color="#333" />
+            </TouchableOpacity>
+          </View>
         </ScrollView>
 
         <DeckModal
@@ -67,6 +88,12 @@ export function PokemonTCGGame() {
           currentPlayerDeck={currentPlayerDeck}
           players={players}
           onClose={closeDeck}
+        />
+
+        <BattleLogModal
+          visible={showBattleLogModal}
+          logs={logs}
+          onClose={toggleBattleLogModal}
         />
       </SafeAreaView>
     </StatusEffectsProvider>
@@ -83,11 +110,30 @@ const styles = StyleSheet.create({
     marginLeft: -32,
     marginRight: -32,
   },
+  playerSectionContainer: {
+    flex: 1,
+  },
   searchContainer: {
     padding: 10,
     backgroundColor: "#FFFFFF",
     margin: 10,
     borderRadius: 15,
+  },
+  actionButtonsContainer: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
 

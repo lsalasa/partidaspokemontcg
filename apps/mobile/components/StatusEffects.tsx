@@ -1,10 +1,11 @@
 // components/StatusEffects/index.tsx
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Pokemon, StatusEffect } from "@/components/PokemonTCGGame/types";
+import { Players, Pokemon, StatusEffect } from "@/components/PokemonTCGGame/types";
 import { useStatusEffects } from "@/hooks/useStatusEffects";
 
 interface StatusEffectsProps {
+  playerId: keyof Players;
   pokemon: Pokemon;
 }
 

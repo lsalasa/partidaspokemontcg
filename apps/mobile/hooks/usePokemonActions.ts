@@ -3,7 +3,11 @@ import { useCallback } from 'react';
 import { Players, Pokemon } from '@/components/PokemonTCGGame/types';
 import { useGameLogs } from './useGameLogs';
 
-export const usePokemonActions = (players: Players, setPlayers: React.Dispatch<React.SetStateAction<Players>>, setMustChoosePokemon: (player: keyof Players | null) => void) => {
+export const usePokemonActions = (
+  players: Players,
+  setPlayers: React.Dispatch<React.SetStateAction<Players>>,
+  setMustChoosePokemon: (player: keyof Players | null) => void
+) => {
   const { addLog } = useGameLogs();
 
   const handleModifyHP = useCallback(

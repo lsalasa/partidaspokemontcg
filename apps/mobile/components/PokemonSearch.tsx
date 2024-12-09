@@ -1,14 +1,15 @@
-// components/PokemonSearch/index.tsx
 import React, { useState } from 'react';
-import { View, TextInput, FlatList, StyleSheet } from 'react-native';
+import { View, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { PokemonCard } from '@/components/PokemonTCGGame/types';
 import PokemonSearchCard from '@/components/PokemonSearchCard';
 
 interface PokemonSearchProps {
   onSelectPokemon: (pokemon: PokemonCard) => void;
+  onCloseSearch: () => void;
 }
 
-export function PokemonSearch({ onSelectPokemon }: PokemonSearchProps) {
+export function PokemonSearch({ onSelectPokemon, onCloseSearch }: PokemonSearchProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<PokemonCard[]>([]);
 
@@ -23,7 +24,7 @@ export function PokemonSearch({ onSelectPokemon }: PokemonSearchProps) {
         `https://api.pokemontcg.io/v2/cards?q=name:${query}*&pageSize=10`
       );
       const data = await response.json();
-      
+
       const formattedResults: PokemonCard[] = data.data.map((card: any) => ({
         id: card.id,
         name: card.name,
@@ -40,25 +41,27 @@ export function PokemonSearch({ onSelectPokemon }: PokemonSearchProps) {
 
   return (
     <View style={styles.searchContainer}>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search for a Pokémon..."
-        value={searchQuery}
-        onChangeText={(text) => {
-          setSearchQuery(text);
-          searchPokemon(text);
-        }}
-      />
+      <View style={styles.header}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search for a Pokémon..."
+          value={searchQuery}
+          onChangeText={(text) => {
+            setSearchQuery(text);
+            searchPokemon(text);
+          }}
+        />
+        <TouchableOpacity onPress={onCloseSearch}>
+          <Ionicons name="close" size={24} color="#333" style={styles.closeIcon} />
+        </TouchableOpacity>
+      </View>
 
       <FlatList
         horizontal
         data={searchResults}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <PokemonSearchCard 
-            pokemon={item}
-            onSelect={() => onSelectPokemon(item)}
-          />
+          <PokemonSearchCard pokemon={item} onSelect={() => onSelectPokemon(item)} />
         )}
         style={styles.resultsList}
         showsHorizontalScrollIndicator={false}
@@ -82,15 +85,25 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
   searchInput: {
+    flex: 1,
     height: 40,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
     paddingHorizontal: 10,
-    marginBottom: 10,
     fontSize: 16,
     backgroundColor: '#f9f9f9',
+  },
+  closeIcon: {
+    padding: 4,
+    marginLeft: 8,
   },
   resultsList: {
     minHeight: 180,

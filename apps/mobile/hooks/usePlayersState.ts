@@ -1,13 +1,26 @@
 import { useState } from 'react';
 import { Players, PokemonCard, Pokemon } from '@/components/PokemonTCGGame/types';
 
-export const usePlayersState = () => {
+export function usePlayersState() {
   const [players, setPlayers] = useState<Players>({
-    player1: { activePokemon: null, bench: [], deck: [] },
-    player2: { activePokemon: null, bench: [], deck: [] },
+    player1: {
+      active: null,
+      bench: [],
+      hand: [],
+      deck: [],
+      activePokemon: null
+    },
+    player2: {
+      active: null,
+      bench: [],
+      hand: [],
+      deck: [],
+      activePokemon: null
+    },
   });
-  const [mustChoosePokemon, setMustChoosePokemon] = useState<keyof Players | null>(null);
-  const [selectedPlayer, setSelectedPlayer] = useState<keyof Players | null>(null);
+
+  const [mustChoosePokemon, setMustChoosePokemon] = useState<'player1' | 'player2' | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<'player1' | 'player2' | null>(null);
 
   const handleSelectPokemon = (card: PokemonCard) => {
     if (!selectedPlayer) return;
@@ -55,5 +68,6 @@ export const usePlayersState = () => {
     setSelectedPlayer,
     setMustChoosePokemon,
     handleSelectPokemon,
+    setPlayers,
   };
 };

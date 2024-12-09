@@ -1,6 +1,6 @@
+// PlayerSection.tsx
 import React from "react";
-
-import { View , StyleSheet} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Player, Players, Pokemon } from "@/components/PokemonTCGGame/types";
 import { PlayerHeader } from "@/components/PlayerHeader";
 import ActivePokemon from "@/components/ActivePokemon";
@@ -15,68 +15,69 @@ interface PlayerSectionProps {
   onShowDeck: (playerId: keyof Players) => void;
   onModifyHP: (playerId: keyof Players, amount: number) => void;
   onSelectBenchPokemon: (playerId: keyof Players, pokemon: Pokemon, mustChoose: boolean) => void;
+  onPlayerAction: (action: string) => void; // Added the onPlayerAction prop
 }
 
-
-export function PlayerSection ({   
+export function PlayerSection({
   playerId,
   player,
   mustChoose,
   onSelectPlayer,
   onShowDeck,
   onModifyHP,
-  onSelectBenchPokemon
-  }: PlayerSectionProps ) {
+  onSelectBenchPokemon,
+  onPlayerAction, // Use the onPlayerAction prop
+}: PlayerSectionProps) {
+  function handleSelectBenchPokemon(
+    playerId: keyof Players,
+    pokemon: Pokemon,
+    mustChoose: boolean
+  ): void {
+    // Implement the function
+  }
 
-    function handleSelectBenchPokemon(playerId: keyof Players, pokemon: Pokemon, mustChoose: boolean): void {
-      throw new Error("Function not implemented.");
-    }
+  return (
+    <View style={styles.playerSection}>
+      <PlayerHeader playerId={playerId} onShowDeck={() => onShowDeck(playerId)} />
 
-    return (
-      
-      <View style={styles.playerSection}>
-    <PlayerHeader 
-      playerId={playerId} 
-      onShowDeck={() => onShowDeck(playerId)} 
-    />
-    
-    {mustChoose && <MustChooseAlert />}
-    
-    {playerId === 'player2' ? (
-      <>
-    <ActivePokemon
-      playerId={playerId}
-      pokemon={player.activePokemon}
-      onAddPokemon={() => onSelectPlayer(playerId)}
-      onModifyHP={onModifyHP}  // Pass through the prop
-    />
-        <BenchSection
-        playerId={playerId}
-        player={player}
-        mustChoose={mustChoose}
-        onSelectPlayer={onSelectPlayer}
-        onSelectBenchPokemon={onSelectBenchPokemon} 
-        />
-      </>
-    ) : (
-      <>
-        <BenchSection
-        playerId={playerId}
-        player={player}
-        mustChoose={mustChoose}
-        onSelectPlayer={onSelectPlayer}
-        onSelectBenchPokemon={onSelectBenchPokemon} 
-        />
-    <ActivePokemon
-      playerId={playerId}
-      pokemon={player.activePokemon}
-      onAddPokemon={() => onSelectPlayer(playerId)}
-      onModifyHP={onModifyHP}  // Pass through the prop
-    />
-      </>
-    )}
-  </View>
-)};
+      {mustChoose && <MustChooseAlert />}
+
+      {playerId === 'player2' ? (
+        <>
+          <ActivePokemon
+            playerId={playerId}
+            pokemon={player.activePokemon}
+            onAddPokemon={() => onSelectPlayer(playerId)}
+            onModifyHP={onModifyHP} // Pass through the prop
+          />
+          <BenchSection
+            playerId={playerId}
+            player={player}
+            mustChoose={mustChoose}
+            onSelectPlayer={onSelectPlayer}
+            onSelectBenchPokemon={onSelectBenchPokemon}
+          />
+        </>
+      ) : (
+        <>
+          <BenchSection
+            playerId={playerId}
+            player={player}
+            mustChoose={mustChoose}
+            onSelectPlayer={onSelectPlayer}
+            onSelectBenchPokemon={onSelectBenchPokemon}
+          />
+          <ActivePokemon
+            playerId={playerId}
+            pokemon={player.activePokemon}
+            onAddPokemon={() => onSelectPlayer(playerId)}
+            onModifyHP={onModifyHP} // Pass through the prop
+          />
+        </>
+      )}
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   playerSection: {
@@ -92,6 +93,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
   },
-})
+});
 
 export default PlayerSection;
