@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Pokemon } from "@/components/PokemonTCGGame/types";
+import { Pokemon, StatusEffect } from "@/components/PokemonTCGGame/types";
+import { StatusIcons } from "@/components/PokemonTCGGame/types"
 
 interface PokemonInfoProps {
   pokemon: Pokemon;
@@ -37,6 +38,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: '#FF1C1C',
   },
+  statusIcon: {
+    fontSize: 20,
+    marginLeft: 5,
+  }
 });
 
 export default PokemonInfo;

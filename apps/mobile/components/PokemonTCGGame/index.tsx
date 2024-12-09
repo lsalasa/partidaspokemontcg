@@ -1,6 +1,6 @@
 // components/PokemonTCGGame/index.tsx
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { SafeAreaView, ScrollView, View, StyleSheet, TouchableOpacity ,Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { PlayerSection } from "@/components/PlayerSection";
@@ -12,6 +12,7 @@ import { usePlayersState } from "@/hooks/usePlayersState";
 import { usePokemonActions } from "@/hooks/usePokemonActions";
 import { usePokemonDeck } from "@/hooks/usePokemonDeck";
 import { useGameLogs } from "@/hooks/useGameLogs";
+import TitleImage from "../TitleImage";
 
 export function PokemonTCGGame() {
   const {
@@ -37,7 +38,7 @@ export function PokemonTCGGame() {
     setMustChoosePokemon
   );
 
-  const { logs, addLog, getLogs } = useGameLogs();
+  const { logs, addLog, getLogs, clearLogs } = useGameLogs();
   const { showDeckModal, currentPlayerDeck, openDeck, closeDeck } = usePokemonDeck();
   const [showBattleLogModal, setShowBattleLogModal] = useState(false);
 
@@ -51,9 +52,10 @@ export function PokemonTCGGame() {
 
   return (
     <StatusEffectsProvider>
-      <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.container}>
         <ScrollView>
-          <View style={styles.playerSectionContainer}>
+          <TitleImage></TitleImage>
+          <View  style={styles.playerSectionContainer}>
             <PlayerSection
               playerId="player1"
               player={players.player1}
@@ -83,7 +85,7 @@ export function PokemonTCGGame() {
               onSelectBenchPokemon={handleSelectBenchPokemon}
               onPlayerAction={addLog}
             />
-          </View>
+          </View >
 
           <View style={styles.actionButtonsContainer}>
             <TouchableOpacity onPress={toggleBattleLogModal}>
@@ -99,12 +101,7 @@ export function PokemonTCGGame() {
           onClose={closeDeck}
         />
 
-        <BattleLogModal
-          visible={showBattleLogModal}
-          logs={logs}
-          onClose={toggleBattleLogModal}
-        />
-      </SafeAreaView>
+      </ScrollView>
     </StatusEffectsProvider>
   );
 }
@@ -113,7 +110,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FF1C1C",
-    paddingTop: 20,
     marginBottom: -52,
     marginTop: -30,
     marginLeft: -32,
@@ -121,6 +117,8 @@ const styles = StyleSheet.create({
   },
   playerSectionContainer: {
     flex: 1,
+    marginHorizontal:12,
+    marginVertical: 88,
   },
   searchContainer: {
     padding: 10,

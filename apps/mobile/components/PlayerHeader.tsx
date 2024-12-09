@@ -27,20 +27,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
       },
       playerTitle: {
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold',
-        color: '#FF1C1C', // Pokémon red text
+        color: '#2f3ca1', // Pokémon red text
       },
       deckButton: {
-        backgroundColor: '#6c757d',
-        padding: 8,
+        backgroundColor: '#000000',
+        padding: 4,
         borderRadius: 6,
       },
       deckButtonText: {
-        color: '#fff',
+        color: '#ffff',
+        fontWeight: 'bold',
         fontSize: 14,
       }
   });
