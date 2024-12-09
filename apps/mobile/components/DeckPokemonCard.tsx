@@ -29,12 +29,13 @@ const styles = StyleSheet.create({
   },
   pokemonName: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#333',
   },
   pokemonHP: {
     fontSize: 14,
-    color: '#6c757d',
+    fontWeight: '500',
+    color: '#333',
   },
 });
 

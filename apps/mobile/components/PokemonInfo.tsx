@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 8,
-    color: '#FF1C1C',
+    color: '#333',
   },
   hpText: {
     fontSize: 18,
     textAlign: 'center',
     marginBottom: 16,
-    color: '#FF1C1C',
+    color: '#333',
   },
   statusIcon: {
     fontSize: 20,
