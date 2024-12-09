@@ -1,3 +1,4 @@
+// components/ActivePokemon/index.tsx
 import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";

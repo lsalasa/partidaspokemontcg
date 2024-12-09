@@ -61,19 +61,17 @@ export function BenchSection({
 
 const styles = StyleSheet.create({
   benchSection: {
-    marginTop: 16,
     backgroundColor: "#f0f0f0",
     borderRadius: 8,
-    padding: 10,
+    padding: 8,
   },
   collapsedBenchSection: {
-    padding: 10,
+
   },
   benchHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
   },
   benchTitle: {
     fontSize: 16,
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
   },
   benchScrollView: {
     flexGrow: 0,
-    marginBottom: 10,
   },
   collapseIcon: {
     padding: 4,

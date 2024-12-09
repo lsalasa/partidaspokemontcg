@@ -81,14 +81,15 @@ export function PlayerSection({
 
 const styles = StyleSheet.create({
   playerSection: {
+    flex:1,
+    gap: 12,
     padding: 16,
-    backgroundColor: '#FFFFFF', // White background
+    backgroundColor: '#FFDE00',
     margin: 8,
-    borderRadius: 12,
-    borderWidth: 3,
-    borderColor: '#000000', // Black border
-    elevation: 5,
-    shadowColor: '#000',
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#3b4cca',
+    shadowColor: '#2f3ca1',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
