@@ -6,7 +6,6 @@ interface HPBarProps {
   maxHp: number;
 }
 
-
 export function HPBar ({ currentHp, maxHp }: HPBarProps ) {
   const percentage = (currentHp / maxHp) * 100;
   const color = 

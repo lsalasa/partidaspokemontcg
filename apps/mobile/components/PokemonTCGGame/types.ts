@@ -39,6 +39,9 @@ export interface IAttack {
 
 export interface Player {
   activePokemon: Pokemon | null;
+  active: boolean | null;
+  hand: Pokemon[];
   bench: Pokemon[];
   deck: Pokemon[];
+
 }

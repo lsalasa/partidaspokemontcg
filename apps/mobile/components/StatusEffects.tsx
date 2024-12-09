@@ -1,53 +1,53 @@
+// components/StatusEffects/index.tsx
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Players, Pokemon, StatusEffect } from "@/components/PokemonTCGGame/types";
+import { useStatusEffects } from "@/hooks/useStatusEffects";
 
 interface StatusEffectsProps {
- playerId: keyof Players;
- pokemon: Pokemon;
- onToggleStatus?: (status: StatusEffect) => void;
+  playerId: keyof Players;
+  pokemon: Pokemon;
 }
 
 const STATUS_EFFECTS: StatusEffect[] = [
- 'confused',
- 'paralyzed',
- 'burned',
- 'poisoned',
- 'asleep'
+  'confused',
+  'paralyzed',
+  'burned',
+  'poisoned',
+  'asleep'
 ];
 
-export function StatusEffects({ 
- playerId, 
- pokemon,
- onToggleStatus 
-}: StatusEffectsProps) {
- return (
-   <View style={styles.statusSection}>
-     <Text style={styles.statusTitle}>Status Effects:</Text>
-     <View style={styles.statusButtons}>
-       {STATUS_EFFECTS.map((status) => {
-         const hasStatus = pokemon.status.includes(status);
-         return (
-           <TouchableOpacity
-             key={status}
-             style={[
-               styles.statusButton,
-               hasStatus && styles.statusActive
-             ]}
-             onPress={() => onToggleStatus?.(status)}
-           >
-             <Text style={[
-               styles.statusButtonText,
-               hasStatus && styles.statusActiveText
-             ]}>
-               {status}
-             </Text>
-           </TouchableOpacity>
-         );
-       })}
-     </View>
-   </View>
- );
+export function StatusEffects({ pokemon }: StatusEffectsProps) {
+  const { toggleStatus, getPokemonStatuses } = useStatusEffects();
+  const currentStatuses = getPokemonStatuses(pokemon);
+
+  return (
+    <View style={styles.statusSection}>
+      <Text style={styles.statusTitle}>Status Effects:</Text>
+      <View style={styles.statusButtons}>
+        {STATUS_EFFECTS.map((status) => {
+          const hasStatus = currentStatuses.includes(status);
+          return (
+            <TouchableOpacity
+              key={status}
+              style={[
+                styles.statusButton,
+                hasStatus && styles.statusActive
+              ]}
+              onPress={() => toggleStatus(pokemon, status)}
+            >
+              <Text style={[
+                styles.statusButtonText,
+                hasStatus && styles.statusActiveText
+              ]}>
+                {status}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

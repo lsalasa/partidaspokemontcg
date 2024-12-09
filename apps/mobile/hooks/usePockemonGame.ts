@@ -5,15 +5,19 @@ import { Alert } from 'react-native';
 
 export const usePokemonGame = () => {
   const [players, setPlayers] = useState<Players>({
-    player1: { 
-      activePokemon: null, 
+    player1: {
+      activePokemon: null,
       bench: [],
-      deck: []
+      deck: [],
+      active: null,
+      hand: []
     },
-    player2: { 
-      activePokemon: null, 
+    player2: {
+      activePokemon: null,
       bench: [],
-      deck: []
+      deck: [],
+      active: null,
+      hand: []
     }
   });
   const [mustChoosePokemon, setMustChoosePokemon] = useState<keyof Players | null>(null);
