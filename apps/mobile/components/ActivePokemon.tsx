@@ -1,3 +1,4 @@
+// components/ActivePokemon/index.tsx
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Players, Pokemon } from "@/components/PokemonTCGGame/types";
@@ -7,25 +8,22 @@ import PokemonImage from "@/components/PokemonImage";
 import HPControls from "@/components/HPControls";
 import StatusEffects from "@/components/StatusEffects";
 import AddPokemonButton from "@/components/AddPokemonButton";
-;
 
 interface ActivePokemonProps {
   playerId: keyof Players;
   pokemon: Pokemon | null;
   onAddPokemon: () => void;
+  onModifyHP: (playerId: keyof Players, amount: number) => void; // Add this prop
 }
 
 export function ActivePokemon({
   playerId,
   pokemon,
-  onAddPokemon
+  onAddPokemon,
+  onModifyHP
 }: ActivePokemonProps) {
   if (!pokemon) {
-      function setSelectedPlayer(playerId: string): void {
-          throw new Error("Function not implemented.");
-      }
-
-    return <AddPokemonButton onPress={() => setSelectedPlayer(playerId)} />;
+    return <AddPokemonButton onPress={onAddPokemon} />;
   }
 
   return (
@@ -37,17 +35,13 @@ export function ActivePokemon({
       />
       <PokemonImage imageUrl={pokemon.imageUrl} />
       <HPControls 
-              playerId={playerId}
-              pokemon={pokemon} onModifyHP={function (amount: number): void {
-                  throw new Error("Function not implemented.");
-              } }        
-        // onModifyHP={(amount) => handleHPModification(playerId, amount)} Uso correcto notificar al event log component
+        playerId={playerId} 
+        pokemon={pokemon}
+        onModifyHP={(amount) => onModifyHP(playerId, amount)}
       />
       <StatusEffects 
         playerId={playerId}
         pokemon={pokemon}
-        
-        // onToggleStatus={(status) => handleStatusToggle(playerId, status)} Uso correcto notificar al event log component
       />
     </View>
   );

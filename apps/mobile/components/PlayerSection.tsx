@@ -8,19 +8,25 @@ import MustChooseAlert from "@/components/MustChooseAlert";
 import BenchSection from "@/components/BenchSection";
 
 interface PlayerSectionProps {
-    playerId: keyof Players;
-    player: Player;
-    mustChoose: boolean;
-    onSelectPlayer: (playerId: keyof Players) => void;
-    onShowDeck: (playerId: keyof Players) => void;
-  }
+  playerId: keyof Players;
+  player: Player;
+  mustChoose: boolean;
+  onSelectPlayer: (playerId: keyof Players) => void;
+  onShowDeck: (playerId: keyof Players) => void;
+  onModifyHP: (playerId: keyof Players, amount: number) => void;
+  onSelectBenchPokemon: (playerId: keyof Players, pokemon: Pokemon, mustChoose: boolean) => void;
+}
+
 
 export function PlayerSection ({   
-    playerId,
-    player,
-    mustChoose,
-    onSelectPlayer,
-    onShowDeck }: PlayerSectionProps ) {
+  playerId,
+  player,
+  mustChoose,
+  onSelectPlayer,
+  onShowDeck,
+  onModifyHP,
+  onSelectBenchPokemon
+  }: PlayerSectionProps ) {
 
     function handleSelectBenchPokemon(playerId: keyof Players, pokemon: Pokemon, mustChoose: boolean): void {
       throw new Error("Function not implemented.");
@@ -38,33 +44,35 @@ export function PlayerSection ({
     
     {playerId === 'player2' ? (
       <>
-        <ActivePokemon
-          playerId={playerId}
-          pokemon={player.activePokemon}
-          onAddPokemon={() => onSelectPlayer(playerId)}
-        />
+    <ActivePokemon
+      playerId={playerId}
+      pokemon={player.activePokemon}
+      onAddPokemon={() => onSelectPlayer(playerId)}
+      onModifyHP={onModifyHP}  // Pass through the prop
+    />
         <BenchSection
-          playerId={playerId}
-          player={player}
-          mustChoose={mustChoose}
-          onSelectPlayer={onSelectPlayer}
-          onSelectBenchPokemon={handleSelectBenchPokemon}
+        playerId={playerId}
+        player={player}
+        mustChoose={mustChoose}
+        onSelectPlayer={onSelectPlayer}
+        onSelectBenchPokemon={onSelectBenchPokemon} 
         />
       </>
     ) : (
       <>
         <BenchSection
-          playerId={playerId}
-          player={player}
-          mustChoose={mustChoose}
-          onSelectPlayer={onSelectPlayer}
-          onSelectBenchPokemon={handleSelectBenchPokemon}
+        playerId={playerId}
+        player={player}
+        mustChoose={mustChoose}
+        onSelectPlayer={onSelectPlayer}
+        onSelectBenchPokemon={onSelectBenchPokemon} 
         />
-        <ActivePokemon
-          playerId={playerId}
-          pokemon={player.activePokemon}
-          onAddPokemon={() => onSelectPlayer(playerId)}
-        />
+    <ActivePokemon
+      playerId={playerId}
+      pokemon={player.activePokemon}
+      onAddPokemon={() => onSelectPlayer(playerId)}
+      onModifyHP={onModifyHP}  // Pass through the prop
+    />
       </>
     )}
   </View>
