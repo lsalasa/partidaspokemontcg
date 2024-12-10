@@ -100,7 +100,6 @@ export function PokemonTCGGame() {
           players={players}
           onClose={closeDeck}
         />
-
       </SafeAreaView>
     </StatusEffectsProvider>
   );

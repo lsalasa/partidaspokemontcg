@@ -25,16 +25,18 @@ export function PokemonSearch({ onSelectPokemon, onCloseSearch }: PokemonSearchP
     try {
       const searchParam = searchById ? `id:${query}*` : `name:${query}*`;
       const response = await fetch(
-        `https://api.pokemontcg.io/v2/cards?q=${searchParam}&pageSize=10`
+       `https://api.pokemontcg.io/v2/cards?q=supertype:pokemon ${searchParam}&pageSize=10`
       );
       const data = await response.json();
 
-      const formattedResults: PokemonCard[] = data.data.map((card: any) => ({
-        id: card.id,
-        name: card.name,
-        hp: parseInt(card.hp || '100'),
-        imageUrl: card.images.small,
-      }));
+      const formattedResults: PokemonCard[] = data.data
+        .filter((card: any) => card.supertype === 'Pokémon')
+        .map((card: any) => ({
+          id: card.id,
+          name: card.name,
+          hp: parseInt(card.hp || '100'),
+          imageUrl: card.images.small,
+        }));
 
       setSearchResults(formattedResults);
     } catch (error) {
@@ -72,10 +74,17 @@ export function PokemonSearch({ onSelectPokemon, onCloseSearch }: PokemonSearchP
         data={searchResults}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <PokemonSearchCard pokemon={item} onSelect={() => onSelectPokemon(item)} />
+          <PokemonSearchCard 
+            {...{
+              pokemon: item, 
+              onSelect: () => onSelectPokemon(item),
+              style: styles.pokemonSearchCard
+            }} 
+          />
         )}
         style={styles.resultsList}
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.resultsListContent}
       />
     </View>
   );
@@ -117,8 +126,11 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   resultsList: {
-    height: 180, 
+    height: 180,
     maxHeight: 180,
+  },
+  resultsListContent: {
+    paddingHorizontal: 5, // Añade un poco de padding horizontal
   },
   checkboxContainer: {
     flexDirection: 'row',
@@ -131,6 +143,9 @@ const styles = StyleSheet.create({
   checkboxLabel: {
     fontSize: 14,
     color: '#666',
+  },
+  pokemonSearchCard: {
+    marginHorizontal: 5, // Añade espacio entre las tarjetas
   },
 });
 

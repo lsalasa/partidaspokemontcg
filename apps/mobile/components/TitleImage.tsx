@@ -16,14 +16,12 @@ const styles = StyleSheet.create({
 });
 
 const TitleImage = () => (
-  <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
       <Image
         style={styles.stretch}
         source={require('@/assets/images/Pokemon-logo.png')}
       />
     </SafeAreaView>
-  </SafeAreaProvider>
 );
 
 export default TitleImage;

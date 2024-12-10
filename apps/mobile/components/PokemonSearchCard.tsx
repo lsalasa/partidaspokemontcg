@@ -17,7 +17,7 @@ export function PokemonSearchCard({ pokemon, onSelect }: PokemonSearchCardProps)
         source={{ uri: pokemon.imageUrl }} 
         style={styles.cardImage}
       />
-      <Text style={styles.cardName}>
+      <Text style={styles.cardName} numberOfLines={2} ellipsizeMode="tail">
         {pokemon.name}
       </Text>
     </TouchableOpacity>
@@ -32,18 +32,23 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     width: 120,
+    height: 220,
   },
   cardImage: {
-    width: 120,
-    height: 160,
+    width: 100,
+    height: 140,
     borderRadius: 8,
-    marginBottom: 5,
+    marginBottom: 8,
   },
   cardName: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
     textAlign: 'center',
     color: '#333',
+    paddingHorizontal: 4,
+    width: '100%',
+    height: 32,
+    lineHeight: 16,
   },
 });
 

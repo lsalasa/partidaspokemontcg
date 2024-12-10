@@ -36,8 +36,11 @@ export function ActivePokemon({
   return (
     <View style={[styles.pokemonCard, !isExpanded && styles.collapsedPokemonCard]}>
       <View style={styles.header}>
+      <View style={styles.placeholderContainer} />
+        <View style={styles.pokemonInfoContainer}>
         <PokemonInfo pokemon={pokemon} />
-        <TouchableOpacity onPress={toggleExpansion}>
+        </View>
+      <TouchableOpacity onPress={toggleExpansion} style={styles.collapseIconContainer}>
           <Ionicons
             name={isExpanded ? "chevron-up" : "chevron-down"}
             size={24}
@@ -45,7 +48,7 @@ export function ActivePokemon({
             style={styles.collapseIcon}
           />
         </TouchableOpacity>
-      </View>
+        </View>
       {isExpanded && (
         <View>
           <HPBar currentHp={pokemon.currentHp} maxHp={pokemon.hp} />
@@ -77,9 +80,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
+  },
+  pokemonInfoContainer: {
+    flex: 1,
+    marginRight: 10,
+  },
+  collapseIconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 4,
+    width: 40,
+    height: 40,
   },
   collapseIcon: {
     padding: 4,
+  },
+  placeholderContainer: {
+    width: 40,
+    height: 40,
   },
 });
 

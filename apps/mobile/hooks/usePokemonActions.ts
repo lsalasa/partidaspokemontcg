@@ -10,6 +10,24 @@ export const usePokemonActions = (
 ) => {
   const { addLog } = useGameLogs();
 
+  const resetGame = useCallback(() => {
+    setPlayers((prev) => ({
+      player1: {
+        ...prev.player1,
+        activePokemon: null,
+        bench: [],
+        deck: [...prev.player1.deck]
+      },
+      player2: {
+        ...prev.player2,
+        activePokemon: null,
+        bench: [],
+        deck: [...prev.player2.deck]
+      }
+    }));
+    addLog('Game has been reset');
+  }, [setPlayers, addLog]);
+
   const handleModifyHP = useCallback(
     async (playerId: keyof Players, amount: number) => {
       setPlayers((prev) => {
@@ -23,7 +41,9 @@ export const usePokemonActions = (
           addLog(`${player.activePokemon.name} has fainted`);
 
           if (player.bench.length === 0) {
-            alert('Game Over!');
+            const winner = playerId === 'player1' ? 'Rival' : 'Player 1';
+            alert(`¡Game Over! ${winner} Wins!`);
+            resetGame();
             return prev;
           }
 
@@ -53,7 +73,7 @@ export const usePokemonActions = (
 
       addLog(`${playerId}'s Pokemon HP changed by ${amount}`);
     },
-    [setPlayers, setMustChoosePokemon, addLog]
+    [setPlayers, setMustChoosePokemon, addLog, resetGame]
   );
 
   const handleSelectBenchPokemon = useCallback(

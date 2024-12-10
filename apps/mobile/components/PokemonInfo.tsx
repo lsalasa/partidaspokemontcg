@@ -35,11 +35,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginBottom: 8,
+    width: '100%', // Ensure full width
   },
   nameContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column', // Changed to column to stack name and status
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%', // Ensure full width
   },
   name: {
     fontSize: 24,
@@ -55,8 +57,12 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   statusContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row', // Keep row direction for icons
     alignItems: 'center',
+    justifyContent: 'center', // Center icons
+    flexWrap: 'wrap', // Allow wrapping
+    gap: 4, // Small gap between status icons
+    width: '100%', // Ensure full width
   },
   statusIconWrapper: {
     flexDirection: 'row',
@@ -65,6 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    marginBottom: 4, // Add some vertical spacing if wrapping occurs
   },
   statusText: {
     fontSize: 12,
