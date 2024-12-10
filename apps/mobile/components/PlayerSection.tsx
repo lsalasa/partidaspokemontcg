@@ -15,7 +15,7 @@ interface PlayerSectionProps {
   onShowDeck: (playerId: keyof Players) => void;
   onModifyHP: (playerId: keyof Players, amount: number) => void;
   onSelectBenchPokemon: (playerId: keyof Players, pokemon: Pokemon, mustChoose: boolean) => void;
-  onPlayerAction: (action: string) => void; // Added the onPlayerAction prop
+  onPlayerAction: (action: string) => void;
 }
 
 export function PlayerSection({
@@ -26,7 +26,7 @@ export function PlayerSection({
   onShowDeck,
   onModifyHP,
   onSelectBenchPokemon,
-  onPlayerAction, // Use the onPlayerAction prop
+  onPlayerAction, 
 }: PlayerSectionProps) {
   function handleSelectBenchPokemon(
     playerId: keyof Players,
@@ -49,6 +49,7 @@ export function PlayerSection({
             pokemon={player.activePokemon}
             onAddPokemon={() => onSelectPlayer(playerId)}
             onModifyHP={onModifyHP} // Pass through the prop
+            onPlayerAction={onPlayerAction}
           />
           <BenchSection
             playerId={playerId}
@@ -72,6 +73,7 @@ export function PlayerSection({
             pokemon={player.activePokemon}
             onAddPokemon={() => onSelectPlayer(playerId)}
             onModifyHP={onModifyHP} // Pass through the prop
+            onPlayerAction={onPlayerAction}
           />
         </>
       )}

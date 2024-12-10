@@ -7,6 +7,7 @@ import { useStatusEffects } from "@/hooks/useStatusEffects";
 interface StatusEffectsProps {
   playerId: keyof Players;
   pokemon: Pokemon;
+  onPlayerAction?: (action: string) => void;
 }
 
 const STATUS_EFFECTS: StatusEffect[] = [
@@ -17,9 +18,20 @@ const STATUS_EFFECTS: StatusEffect[] = [
   'asleep'
 ];
 
-export function StatusEffects({ pokemon }: StatusEffectsProps) {
+export function StatusEffects({ playerId, pokemon, onPlayerAction }: StatusEffectsProps) {
   const { toggleStatus, getPokemonStatuses } = useStatusEffects();
   const currentStatuses = getPokemonStatuses(pokemon);
+
+  const handleStatusToggle = (status: StatusEffect) => {
+    toggleStatus(pokemon, status);
+    if (onPlayerAction) {
+      const hasStatus = currentStatuses.includes(status);
+      const action = hasStatus 
+        ? `${pokemon.name} is no longer ${status}`
+        : `${pokemon.name} is now ${status}`;
+      onPlayerAction(`${playerId}: ${action}`);
+    }
+  };
 
   return (
     <View style={styles.statusSection}>
@@ -34,7 +46,7 @@ export function StatusEffects({ pokemon }: StatusEffectsProps) {
                 styles.statusButton,
                 hasStatus && styles.statusActive
               ]}
-              onPress={() => toggleStatus(pokemon, status)}
+              onPress={() => handleStatusToggle(status)}
             >
               <Text style={[
                 styles.statusButtonText,

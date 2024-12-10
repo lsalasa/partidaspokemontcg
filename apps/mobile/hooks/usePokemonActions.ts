@@ -6,27 +6,9 @@ import { useGameLogs } from './useGameLogs';
 export const usePokemonActions = (
   players: Players,
   setPlayers: React.Dispatch<React.SetStateAction<Players>>,
-  setMustChoosePokemon: (player: keyof Players | null) => void
+  setMustChoosePokemon: (player: keyof Players | null) => void,
+  addLog: (action: string) => void
 ) => {
-  const { addLog } = useGameLogs();
-
-  const resetGame = useCallback(() => {
-    setPlayers((prev) => ({
-      player1: {
-        ...prev.player1,
-        activePokemon: null,
-        bench: [],
-        deck: [...prev.player1.deck]
-      },
-      player2: {
-        ...prev.player2,
-        activePokemon: null,
-        bench: [],
-        deck: [...prev.player2.deck]
-      }
-    }));
-    addLog('Game has been reset');
-  }, [setPlayers, addLog]);
 
   const handleModifyHP = useCallback(
     async (playerId: keyof Players, amount: number) => {
@@ -41,14 +23,12 @@ export const usePokemonActions = (
           addLog(`${player.activePokemon.name} has fainted`);
 
           if (player.bench.length === 0) {
-            const winner = playerId === 'player1' ? 'Rival' : 'Player 1';
-            alert(`¡Game Over! ${winner} Wins!`);
-            resetGame();
+            alert('Game Over!');
             return prev;
           }
 
           setMustChoosePokemon(playerId);
-
+          addLog(`${playerId}'s Pokemon HP changed by ${amount}`);
           return {
             ...prev,
             [playerId]: {
@@ -73,7 +53,7 @@ export const usePokemonActions = (
 
       addLog(`${playerId}'s Pokemon HP changed by ${amount}`);
     },
-    [setPlayers, setMustChoosePokemon, addLog, resetGame]
+    [setPlayers, setMustChoosePokemon, addLog]
   );
 
   const handleSelectBenchPokemon = useCallback(

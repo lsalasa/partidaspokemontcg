@@ -15,6 +15,7 @@ interface ActivePokemonProps {
   pokemon: Pokemon | null;
   onAddPokemon: () => void;
   onModifyHP: (playerId: keyof Players, amount: number) => void;
+  onPlayerAction: (action: string) => void;
 }
 
 export function ActivePokemon({
@@ -22,6 +23,7 @@ export function ActivePokemon({
   pokemon,
   onAddPokemon,
   onModifyHP,
+  onPlayerAction,
 }: ActivePokemonProps) {
   const [isExpanded, setIsExpanded] = useState(true);
 
@@ -34,13 +36,18 @@ export function ActivePokemon({
   }
 
   return (
-    <View style={[styles.pokemonCard, !isExpanded && styles.collapsedPokemonCard]}>
+    <View
+      style={[styles.pokemonCard, !isExpanded && styles.collapsedPokemonCard]}
+    >
       <View style={styles.header}>
-      <View style={styles.placeholderContainer} />
+        <View style={styles.placeholderContainer} />
         <View style={styles.pokemonInfoContainer}>
-        <PokemonInfo pokemon={pokemon} />
+          <PokemonInfo pokemon={pokemon} />
         </View>
-      <TouchableOpacity onPress={toggleExpansion} style={styles.collapseIconContainer}>
+        <TouchableOpacity
+          onPress={toggleExpansion}
+          style={styles.collapseIconContainer}
+        >
           <Ionicons
             name={isExpanded ? "chevron-up" : "chevron-down"}
             size={24}
@@ -48,7 +55,7 @@ export function ActivePokemon({
             style={styles.collapseIcon}
           />
         </TouchableOpacity>
-        </View>
+      </View>
       {isExpanded && (
         <View>
           <HPBar currentHp={pokemon.currentHp} maxHp={pokemon.hp} />
@@ -58,7 +65,11 @@ export function ActivePokemon({
             pokemon={pokemon}
             onModifyHP={(amount) => onModifyHP(playerId, amount)}
           />
-          <StatusEffects playerId={playerId} pokemon={pokemon} />
+          <StatusEffects
+            playerId={playerId}
+            pokemon={pokemon}
+            onPlayerAction={onPlayerAction}
+          />
         </View>
       )}
     </View>
@@ -87,8 +98,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   collapseIconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 4,
     width: 40,
     height: 40,

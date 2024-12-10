@@ -32,13 +32,16 @@ export function PokemonTCGGame() {
     setSelectedPlayer(null); 
   };
   
+  const { logs, addLog, getLogs, clearLogs } = useGameLogs();
+  
   const { handleModifyHP, handleSelectBenchPokemon } = usePokemonActions(
     players,
     setPlayers,
-    setMustChoosePokemon
+    setMustChoosePokemon,
+    addLog
   );
 
-  const { logs, addLog, getLogs, clearLogs } = useGameLogs();
+  
   const { showDeckModal, currentPlayerDeck, openDeck, closeDeck } = usePokemonDeck();
   const [showBattleLogModal, setShowBattleLogModal] = useState(false);
 
@@ -101,6 +104,12 @@ export function PokemonTCGGame() {
           onClose={closeDeck}
         />
       </SafeAreaView>
+
+      <BattleLogModal
+          visible={showBattleLogModal}
+          logs={logs}
+          onClose={toggleBattleLogModal}
+        />
     </StatusEffectsProvider>
   );
 }
