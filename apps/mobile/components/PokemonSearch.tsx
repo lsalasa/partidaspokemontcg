@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { PokemonCard } from '@/components/PokemonTCGGame/types';
 import PokemonSearchCard from '@/components/PokemonSearchCard';
+import Checkbox from 'expo-checkbox'; // Necesitarás instalar este paquete
+
 
 interface PokemonSearchProps {
   onSelectPokemon: (pokemon: PokemonCard) => void;
@@ -12,6 +14,7 @@ interface PokemonSearchProps {
 export function PokemonSearch({ onSelectPokemon, onCloseSearch }: PokemonSearchProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<PokemonCard[]>([]);
+  const [searchById, setSearchById] = useState(false);
 
   const searchPokemon = async (query: string) => {
     if (!query.trim()) {
@@ -20,8 +23,9 @@ export function PokemonSearch({ onSelectPokemon, onCloseSearch }: PokemonSearchP
     }
 
     try {
+      const searchParam = searchById ? `id:${query}*` : `name:${query}*`;
       const response = await fetch(
-        `https://api.pokemontcg.io/v2/cards?q=name:${query}*&pageSize=10`
+        `https://api.pokemontcg.io/v2/cards?q=${searchParam}&pageSize=10`
       );
       const data = await response.json();
 
@@ -44,18 +48,25 @@ export function PokemonSearch({ onSelectPokemon, onCloseSearch }: PokemonSearchP
       <View style={styles.header}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search for a Pokémon..."
+          placeholder={searchById ? "Buscar por ID..." : "Buscar por nombre..."}
           value={searchQuery}
           onChangeText={(text) => {
             setSearchQuery(text);
             searchPokemon(text);
           }}
         />
-        <TouchableOpacity onPress={onCloseSearch}>
-          <Ionicons name="close" size={24} color="#333" style={styles.closeIcon} />
+        <TouchableOpacity onPress={onCloseSearch} style={styles.closeIcon}>
+          <Ionicons name="close" size={24} color="#333"/>
         </TouchableOpacity>
       </View>
-
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              value={searchById}
+              onValueChange={setSearchById}
+              style={styles.checkbox}
+            />
+            <Text style={styles.checkboxLabel}>Buscar por ID</Text>
+          </View>
       <FlatList
         horizontal
         data={searchResults}
@@ -106,8 +117,20 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   resultsList: {
-    minHeight: 180,
+    height: 180, 
     maxHeight: 180,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  checkbox: {
+    marginRight: 8,
+  },
+  checkboxLabel: {
+    fontSize: 14,
+    color: '#666',
   },
 });
 

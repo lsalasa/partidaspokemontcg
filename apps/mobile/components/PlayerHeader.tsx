@@ -11,7 +11,7 @@ export function PlayerHeader ({playerId, onShowDeck }: PlayerHeaderProps ) {
     return (
         <View style={styles.headerSection}>
         <Text style={styles.playerTitle}>
-          {playerId === 'player1' ? 'Player 1' : 'Player 2'}
+          {playerId === 'player1' ? 'Rival' : 'You'}
         </Text>
         <TouchableOpacity
           style={styles.deckButton}

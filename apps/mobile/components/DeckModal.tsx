@@ -29,7 +29,7 @@ export function DeckModal({
      <View style={styles.modalContainer}>
        <View style={styles.modalContent}>
          <Text style={styles.modalTitle}>
-           {currentPlayerDeck === 'player1' ? 'Player 1' : 'Player 2'}'s Deck
+           {currentPlayerDeck === 'player1' ? 'Rival' : 'Your'}'s Deck
          </Text>
 
          <ScrollView style={styles.deckList}>
